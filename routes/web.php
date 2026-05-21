@@ -1,14 +1,14 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PostController; // Importamos el controlador
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Se agrupam las rutas que requieren que el usuario esté autenticado y verificado
+// Se agrupan las rutas que requieren que el usuario esté autenticado y verificado
 Route::middleware(['auth', 'verified'])->group(function () {
     
     // Dashboard protegido para admin y editor
@@ -16,9 +16,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard');
     })->middleware('role:admin,editor')->name('dashboard');
 
+    // Rutas para ver el formulario y mostrar un post específico
+    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+    Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+
     // Rutas de Posts protegidas por rol específico
-    Route::post('/posts', [PostController::class, 'store'])->middleware('role:editor');
+    Route::post('/posts', [PostController::class, 'store'])->middleware('role:editor,admin')->name('posts.store');
     Route::delete('/posts/{id}', [PostController::class, 'destroy'])->middleware('role:admin');
+    
+    // Eliminación de archivos adjuntos
+    Route::delete('/attachments/{attachment}', [PostController::class, 'destroyAttachment'])->name('attachments.destroy');
     
 });
 

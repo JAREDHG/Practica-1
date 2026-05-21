@@ -10,7 +10,12 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'category_id', 'title', 'content', 'views', 'published_at'
+        'user_id',
+        'category_id',
+        'title',
+        'content',
+        'views',
+        'published_at'
     ];
 
     public function category()
@@ -31,5 +36,10 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class);
     }
 }
