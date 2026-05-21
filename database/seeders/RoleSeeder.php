@@ -2,19 +2,15 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Role;
+use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'editor']);
-        Role::create(['name' => 'viewer']);
+        Role::create(['name' => 'admin']); // [cite: 555]
+        Role::create(['name' => 'editor']); // [cite: 556]
+        Role::create(['name' => 'viewer']); // [cite: 557, 560]
     }
 }
