@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PostAdminController;
+use App\Http\Controllers\Admin\AuditController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,6 +30,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Eliminación de archivos adjuntos
     Route::delete('/attachments/{attachment}', [PostController::class, 'destroyAttachment'])->name('attachments.destroy');
     
+});
+
+// PASO 5: Grupo de rutas exclusivas para el panel Administrativo
+Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Dashboard principal del administrador
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // CRUD completo de posts para el administrador
+    Route::resource('/posts', PostAdminController::class);
+    
+    // Rutas de solo lectura para la auditoría (index y show)
+    Route::resource('/audits', AuditController::class)->only(['index', 'show']);
 });
 
 Route::middleware('auth')->group(function () {
