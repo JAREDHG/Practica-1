@@ -15,12 +15,12 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        // Verificamos que el usuario esté logueado
+        // Verificar que el usuario esté logueado
         if (!auth()->check()) {
             abort(403, 'Unauthorized access');
         }
 
-        // Iteramos sobre la lista de roles permitidos en la ruta
+        // Se itera sobre la lista de roles permitidos en la ruta
         foreach ($roles as $role) {
             // Si el usuario tiene al menos uno de los roles permitidos, pasa
             if (auth()->user()->hasRole(trim($role))) {

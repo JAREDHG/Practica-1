@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->roles->where('name', $role)->isNotEmpty();
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }
